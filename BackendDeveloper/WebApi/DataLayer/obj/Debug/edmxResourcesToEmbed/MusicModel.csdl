@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MusicModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="MusicEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="ArtistAlias" EntityType="MusicModel.ArtistAlia" />
+    <EntitySet Name="Artists" EntityType="MusicModel.Artist" />
+    <AssociationSet Name="FK__ArtistAli__Artis__0519C6AF" Association="MusicModel.FK__ArtistAli__Artis__0519C6AF">
+      <End Role="Artist" EntitySet="Artists" />
+      <End Role="ArtistAlia" EntitySet="ArtistAlias" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ArtistAlia">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ArtistUniqueIdentifier" Nullable="false" MaxLength="36" FixedLength="true" Unicode="false" />
+    <Property Type="String" Name="Alias" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Artist" Relationship="MusicModel.FK__ArtistAli__Artis__0519C6AF" FromRole="ArtistAlia" ToRole="Artist" />
+  </EntityType>
+  <EntityType Name="Artist">
+    <Key>
+      <PropertyRef Name="UniqueIdentifier" />
+    </Key>
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="UniqueIdentifier" Nullable="false" MaxLength="36" FixedLength="true" Unicode="false" />
+    <Property Type="String" Name="Country" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="ArtistAlias" Relationship="MusicModel.FK__ArtistAli__Artis__0519C6AF" FromRole="Artist" ToRole="ArtistAlia" />
+  </EntityType>
+  <Association Name="FK__ArtistAli__Artis__0519C6AF">
+    <End Type="MusicModel.Artist" Role="Artist" Multiplicity="1" />
+    <End Type="MusicModel.ArtistAlia" Role="ArtistAlia" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Artist">
+        <PropertyRef Name="UniqueIdentifier" />
+      </Principal>
+      <Dependent Role="ArtistAlia">
+        <PropertyRef Name="ArtistUniqueIdentifier" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
