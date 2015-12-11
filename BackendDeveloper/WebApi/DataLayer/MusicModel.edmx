@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MusicModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="MusicModelStoreContainer">
+          <EntitySet Name="Artist" EntityType="MusicModel.Store.Artist" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ArtistAlias" EntityType="MusicModel.Store.ArtistAlias" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__ArtistAli__Artis__0519C6AF" Association="MusicModel.Store.FK__ArtistAli__Artis__0519C6AF">
+            <End Role="Artist" EntitySet="Artist" />
+            <End Role="ArtistAlias" EntitySet="ArtistAlias" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Artist">
+          <Key>
+            <PropertyRef Name="UniqueIdentifier" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="UniqueIdentifier" Type="char" Nullable="false" MaxLength="36" />
+          <Property Name="Country" Type="char" Nullable="false" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="ArtistAlias">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ArtistUniqueIdentifier" Type="char" Nullable="false" MaxLength="36" />
+          <Property Name="Alias" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK__ArtistAli__Artis__0519C6AF">
+          <End Role="Artist" Type="MusicModel.Store.Artist" Multiplicity="1" />
+          <End Role="ArtistAlias" Type="MusicModel.Store.ArtistAlias" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artist">
+              <PropertyRef Name="UniqueIdentifier" />
+            </Principal>
+            <Dependent Role="ArtistAlias">
+              <PropertyRef Name="ArtistUniqueIdentifier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MusicModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="MusicEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="ArtistAlias" EntityType="MusicModel.ArtistAlia" />
+          <EntitySet Name="Artists" EntityType="MusicModel.Artist" />
+          <AssociationSet Name="FK__ArtistAli__Artis__0519C6AF" Association="MusicModel.FK__ArtistAli__Artis__0519C6AF">
+            <End Role="Artist" EntitySet="Artists" />
+            <End Role="ArtistAlia" EntitySet="ArtistAlias" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ArtistAlia">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ArtistUniqueIdentifier" Nullable="false" MaxLength="36" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Alias" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Artist" Relationship="MusicModel.FK__ArtistAli__Artis__0519C6AF" FromRole="ArtistAlia" ToRole="Artist" />
+        </EntityType>
+        <EntityType Name="Artist">
+          <Key>
+            <PropertyRef Name="UniqueIdentifier" />
+          </Key>
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="UniqueIdentifier" Nullable="false" MaxLength="36" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="Country" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="ArtistAlias" Relationship="MusicModel.FK__ArtistAli__Artis__0519C6AF" FromRole="Artist" ToRole="ArtistAlia" />
+        </EntityType>
+        <Association Name="FK__ArtistAli__Artis__0519C6AF">
+          <End Type="MusicModel.Artist" Role="Artist" Multiplicity="1" />
+          <End Type="MusicModel.ArtistAlia" Role="ArtistAlia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artist">
+              <PropertyRef Name="UniqueIdentifier" />
+            </Principal>
+            <Dependent Role="ArtistAlia">
+              <PropertyRef Name="ArtistUniqueIdentifier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MusicModelStoreContainer" CdmEntityContainer="MusicEntities">
+          <EntitySetMapping Name="ArtistAlias">
+            <EntityTypeMapping TypeName="MusicModel.ArtistAlia">
+              <MappingFragment StoreEntitySet="ArtistAlias">
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
+                <ScalarProperty Name="ArtistUniqueIdentifier" ColumnName="ArtistUniqueIdentifier" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Artists">
+            <EntityTypeMapping TypeName="MusicModel.Artist">
+              <MappingFragment StoreEntitySet="Artist">
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="UniqueIdentifier" ColumnName="UniqueIdentifier" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
